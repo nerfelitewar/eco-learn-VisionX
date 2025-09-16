@@ -238,12 +238,35 @@
         if (!email) return;
         const { data: rows } = await supabaseClient
           .from('UsersDatabase')
-          .select('eco_points')
+          .select('eco_points,institution')
           .eq('email', email);
         const currentDb = Array.isArray(rows) && rows.length ? (rows[0].eco_points || 0) : 0;
+        const institution = Array.isArray(rows) && rows.length ? (rows[0].institution || null) : null;
         const newPts = user.ecopoints || 0;
-        if (newPts !== currentDb) {
-          await supabaseClient.from('UsersDatabase').update({ eco_points: newPts }).eq('email', email);
+        const delta = newPts - currentDb;
+        if (delta === 0) return;
+        // 1) update user points
+        await supabaseClient.from('UsersDatabase').update({ eco_points: newPts }).eq('email', email);
+        // 2) add delta to institution total
+        if (institution) {
+          try {
+            const res = await supabaseClient
+              .from('Schools')
+              .select('id,total_ecopoints,member_count')
+              .eq('name', institution);
+            const exists = Array.isArray(res.data) && res.data.length;
+            if (exists) {
+              const curTotal = res.data[0].total_ecopoints || 0;
+              await supabaseClient
+                .from('Schools')
+                .update({ total_ecopoints: curTotal + delta })
+                .eq('name', institution);
+            } else {
+              await supabaseClient
+                .from('Schools')
+                .insert({ name: institution, total_ecopoints: Math.max(delta,0), member_count: 1 });
+            }
+          } catch(err) { console.warn('School total update failed', err); }
         }
       } catch(e) {
         console.warn('EcoPoints sync failed', e);
