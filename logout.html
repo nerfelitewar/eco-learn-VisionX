@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Logging out...</title>
+    <style>
+        body {
+            font-family: 'Nunito', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, #f7fff7 0%, #e9fff0 40%, #ffffff 100%);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            color: #2b2b3a;
+        }
+        .logout-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(20, 60, 40, .08);
+            padding: 22px;
+            text-align: center;
+        }
+        h1 { margin: 0 0 10px 0; }
+        .muted { color: #5b6b6b; }
+    </style>
+</head>
+<body>
+    <div class="logout-card">
+        <h1>🌱 Logging out...</h1>
+        <div class="muted">See you soon!</div>
+    </div>
+    <script>
+        localStorage.clear();
+        setTimeout(() => {
+            window.location.href = 'login_signup.html';
+        }, 1000);
+    </script>
+</body>
+</html>

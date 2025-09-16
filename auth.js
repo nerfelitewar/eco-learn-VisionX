@@ -14,7 +14,7 @@
 
   if (!window.SUPABASE_URL || !window.SUPABASE_KEY) {
     msg.className = 'error';
-    msg.textContent = 'Missing Supabase credentials. Copy auth-config.example.js to auth-config.js and fill in values.';
+    msg.textContent = 'Missing Supabase credentials. Please copy auth-config.example.js to auth-config.js and fill in your Supabase URL and anon key.';
     continueBtn.disabled = true;
     return;
   }

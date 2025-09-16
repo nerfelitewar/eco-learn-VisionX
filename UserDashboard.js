@@ -65,10 +65,19 @@
     let supabaseClient = null;
     const SB_URL = localStorage.getItem('SB_URL');
     const SB_KEY = localStorage.getItem('SB_KEY');
+    console.log('SB_URL:', SB_URL, 'SB_KEY:', SB_KEY ? 'set' : 'not set');
     if (window.supabase && SB_URL && SB_KEY) {
       try {
         supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
-      } catch(e) { console.warn('Supabase init failed', e); }
+        console.log('Supabase client initialized');
+      } catch(e) {
+        console.warn('Supabase init failed', e);
+        alert('Supabase init failed: ' + e.message);
+      }
+    } else {
+      console.warn('Supabase not initialized: window.supabase:', !!window.supabase, 'SB_URL:', !!SB_URL, 'SB_KEY:', !!SB_KEY);
+      // Redirect to login if credentials missing
+      window.location.href = 'login_signup.html';
     }
   
     const avatarWrap = $('#avatarWrap');
@@ -177,8 +186,17 @@
           <div style="flex:1">
             <strong style="display:block">${b.name}</strong>
             <small style="color:var(--muted)">${b.desc}</small>
+            ${b.earned ? `<div style="font-weight:bold; color:#6b4; margin-top:4px;">Points: ${b.points || 0}</div>` : ''}
           </div>
         `;
+        el.addEventListener('click', () => {
+          const badgeDialog = document.getElementById('badgeDialog');
+          const badgeTitle = document.getElementById('badgeTitle');
+          const badgeDesc = document.getElementById('badgeDesc');
+          badgeTitle.textContent = b.name;
+          badgeDesc.textContent = b.desc;
+          badgeDialog.showModal();
+        });
         badgesWrap.appendChild(el);
       });
     }
@@ -232,24 +250,50 @@
     }
 
     async function syncEcoPointsToDb(){
-      if (!supabaseClient) return;
+      if (!supabaseClient) {
+        console.log('No supabaseClient, skipping sync');
+        return;
+      }
       try {
         const email = localStorage.getItem('USER_EMAIL');
-        if (!email) return;
-        const { data: rows } = await supabaseClient
+        console.log('USER_EMAIL:', email);
+        if (!email) {
+          console.log('No email, skipping sync');
+          return;
+        }
+        console.log('Fetching current eco_points from DB');
+        const { data: rows, error: selectError } = await supabaseClient
           .from('UsersDatabase')
           .select('eco_points,institution')
           .eq('email', email);
+        if (selectError) {
+          console.error('Select error:', selectError);
+          alert('Error fetching eco_points: ' + selectError.message);
+          return;
+        }
+        console.log('Rows:', rows);
         const currentDb = Array.isArray(rows) && rows.length ? (rows[0].eco_points || 0) : 0;
         const institution = Array.isArray(rows) && rows.length ? (rows[0].institution || null) : null;
         const newPts = user.ecopoints || 0;
         const delta = newPts - currentDb;
-        if (delta === 0) return;
+        console.log('currentDb:', currentDb, 'newPts:', newPts, 'delta:', delta);
+        if (delta === 0) {
+          console.log('No change, skipping update');
+          return;
+        }
         // 1) update user points
-        await supabaseClient.from('UsersDatabase').update({ eco_points: newPts }).eq('email', email);
+        console.log('Updating user eco_points to', newPts);
+        const { error: updateError } = await supabaseClient.from('UsersDatabase').update({ eco_points: newPts }).eq('email', email);
+        if (updateError) {
+          console.error('Update error:', updateError);
+          alert('Error updating eco_points: ' + updateError.message);
+          return;
+        }
+        console.log('User update successful');
         // 2) add delta to institution total
         if (institution) {
           try {
+            console.log('Updating institution', institution);
             const res = await supabaseClient
               .from('Schools')
               .select('id,total_ecopoints,member_count')
@@ -257,19 +301,38 @@
             const exists = Array.isArray(res.data) && res.data.length;
             if (exists) {
               const curTotal = res.data[0].total_ecopoints || 0;
-              await supabaseClient
+              console.log('Updating existing school total from', curTotal, 'to', curTotal + delta);
+              const { error: schoolUpdateError } = await supabaseClient
                 .from('Schools')
                 .update({ total_ecopoints: curTotal + delta })
                 .eq('name', institution);
+              if (schoolUpdateError) {
+                console.error('School update error:', schoolUpdateError);
+                alert('Error updating school total: ' + schoolUpdateError.message);
+              } else {
+                console.log('School update successful');
+              }
             } else {
-              await supabaseClient
+              console.log('Inserting new school');
+              const { error: schoolInsertError } = await supabaseClient
                 .from('Schools')
                 .insert({ name: institution, total_ecopoints: Math.max(delta,0), member_count: 1 });
+              if (schoolInsertError) {
+                console.error('School insert error:', schoolInsertError);
+                alert('Error inserting school: ' + schoolInsertError.message);
+              } else {
+                console.log('School insert successful');
+              }
             }
-          } catch(err) { console.warn('School total update failed', err); }
+          } catch(err) {
+            console.warn('School total update failed', err);
+            alert('School update failed: ' + err.message);
+          }
         }
+        console.log('Sync completed successfully');
       } catch(e) {
         console.warn('EcoPoints sync failed', e);
+        alert('EcoPoints sync failed: ' + e.message);
       }
     }
 
@@ -513,6 +576,14 @@
     // init
     renderAll();
     attachMissionButtons();
+
+    // Badge dialog close handler
+    const badgeClose = document.getElementById('badgeClose');
+    if (badgeClose) {
+      badgeClose.addEventListener('click', () => {
+        document.getElementById('badgeDialog').close();
+      });
+    }
   
     // attach daily
     dailyBtn.addEventListener('click', dailyLogin);
@@ -551,19 +622,38 @@
       }
     });
   
-    // Search input small UX
-    $('#searchInput').addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      // simple nav highlight
-      $$('.nav-item').forEach(n => {
-        n.classList.toggle('dim', !!q && !n.textContent.toLowerCase().includes(q));
-      });
-    });
+
   
     // initial small animation
     document.body.style.opacity = 0;
     setTimeout(()=>document.body.style.transition='opacity .35s',20);
     setTimeout(()=>document.body.style.opacity = 1, 40);
-  
+
+    // Nav item event listeners
+    $$('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active from all
+        $$('.nav-item').forEach(b => b.classList.remove('active'));
+        // Add active to this
+        btn.classList.add('active');
+        // Handle navigation
+        const text = btn.textContent.trim();
+        if (text === 'Dashboard') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (text === 'Achievements') {
+          document.querySelector('.badges-card').scrollIntoView({ behavior: 'smooth' });
+        } else if (text === 'Eco Missions') {
+          document.querySelector('.tasks-card').scrollIntoView({ behavior: 'smooth' });
+        } else if (text === 'Settings') {
+          settingsDialog.showModal();
+        }
+      });
+    });
+
+    // Logout button
+    $('#logoutBtn').addEventListener('click', () => {
+      window.location.href = 'logout.html';
+    });
+
   })();
   

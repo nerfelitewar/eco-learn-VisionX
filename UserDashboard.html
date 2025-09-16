@@ -12,8 +12,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles/styles.css">
 
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <!-- Meta -->
-    <meta name="description" content="Kawaii-themed user dashboard with ecopoints and streaks" />
+    <meta name="description" content="User dashboard with ecopoints and streaks" />
 </head>
 
 <body>
@@ -21,29 +24,70 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="brand">
-                <div class="logo-kawaii" aria-hidden="true">
-                    <!-- tiny kawaii leaf logo -->
-                    <svg viewBox="0 0 64 64" width="36" height="36" aria-hidden="true">
+                <div class="logo" aria-hidden="true">
+                    <!-- Eco leaf logo -->
+                    
                         <defs>
-                            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0" stop-color="#A6F3C5" />
-                                <stop offset="1" stop-color="#7AE6A8" />
+                            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#7AE6A8;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="veinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#A5D6A7;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#388E3C;stop-opacity:1" />
                             </linearGradient>
                         </defs>
-                        <path d="M10 40 C18 10 46 10 54 40 C32 56 32 56 10 40 Z" fill="url(#g)" stroke="#6cd08b" />
+                        <!-- Main leaf shape -->
+                        <path d="M32 4 C20 4 12 12 12 24 C12 36 20 44 32 44 C44 44 52 36 52 24 C52 12 44 4 32 4 Z" fill="url(#leafGrad)" stroke="#388E3C" stroke-width="1"/>
+                        <!-- Inner highlight -->
+                        <path d="M32 8 C40 8 48 16 48 24 C48 32 40 40 32 40 C24 40 16 32 16 24 C16 16 24 8 32 8 Z" fill="none" stroke="#A5D6A7" stroke-width="2" opacity="0.6"/>
+                        <!-- Central vein -->
+                        <path d="M32 8 L32 40" stroke="url(#veinGrad)" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Side veins -->
+                        <path d="M24 16 Q28 20 32 24" stroke="#81C784" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M40 16 Q36 20 32 24" stroke="#81C784" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <!-- Small details -->
+                        <circle cx="28" cy="18" r="1" fill="#66BB6A"/>
+                        <circle cx="36" cy="18" r="1" fill="#66BB6A"/>
                     </svg>
                 </div>
-                <div class="brand-text">
-                    <strong>EcoLearn</strong>
-                    <small>kawaii hub</small>
-                </div>
+            <div class="brand-text">
+                <img src="assets/ecolearn.svg" alt="EcoLearn Logo" style="height:36px; width:auto; vertical-align:middle; margin-right:8px;" />
+                <strong>EcoLearn</strong>
+                <small>Eco Hub</small>
+            </div>
             </div>
 
             <nav class="nav">
-                <button class="nav-item active"><span class="nav-emoji">🏠</span> Dashboard</button>
-                <button class="nav-item"><span class="nav-emoji">🏆</span> Achievements</button>
-                <button class="nav-item"><span class="nav-emoji">🌱</span> Eco Missions</button>
-                <button class="nav-item"><span class="nav-emoji">⚙️</span> Settings</button>
+                <button class="nav-item active">
+                    <svg class="nav-icon" width="18" height="
+                    18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                    </svg>
+                    Dashboard
+                </button>
+                <button class="nav-item">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    Achievements
+                </button>
+                <button class="nav-item">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                        <line x1="16" y1="8" x2="2" y2="22"></line>
+                        <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                    </svg>
+                    Eco Missions
+                </button>
+                <button class="nav-item">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    Settings
+                </button>
             </nav>
 
             <div class="sidebar-footer">
@@ -57,12 +101,27 @@
             <!-- Topbar -->
             <header class="topbar">
                 <button id="hamburger" class="hamburger" aria-label="Open menu">☰</button>
-                <div class="search">
-                    <input id="searchInput" placeholder="Search missions, badges..." />
-                </div>
                 <div class="top-actions">
-                    <div class="notif">🔔 <span class="badge-dot" id="notifDot" aria-hidden="true"></span></div>
-                    <button id="openSettings" class="icon-btn" title="Settings">⚙️</button>
+                    <div class="notif">
+                        <svg class="notif-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="badge-dot" id="notifDot" aria-hidden="true"></span>
+                    </div>
+                    <button id="openSettings" class="icon-btn" title="Settings">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </button>
+                    <button id="logoutBtn" class="icon-btn" title="Logout">
+                        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16,17 21,12 16,7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
                 </div>
             </header>
 
@@ -95,7 +154,20 @@
                         </div>
 
                         <div class="daily-login">
-                            <button id="dailyBtn" class="btn-primary">Daily Login 🌞</button>
+                            <button id="dailyBtn" class="btn-primary">
+                                <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                                Daily Login
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -177,7 +249,13 @@
                     <!-- Leaderboard (Top 3 Institutions) -->
                     <div class="card leaderboard-card">
                         <div class="card-header">
-                            <h3>🏫 Institution Leaderboard</h3>
+                            <h3>
+                                <svg class="school-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                </svg>
+                                Institution Leaderboard
+                            </h3>
                             <small>Top 3 by EcoPoints</small>
                         </div>
                         <ol id="leaderboardList" class="leaderboard"></ol>
@@ -185,7 +263,18 @@
                 </div>
 
                 <footer class="page-footer">
-                    <div>Made with ❤️ and leaves • Stay green 🌿</div>
+                    <div>
+                        Made with
+                        <svg class="heart-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                        and leaves • Stay green
+                        <svg class="leaf-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                            <line x1="16" y1="8" x2="2" y2="22"></line>
+                            <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                        </svg>
+                    </div>
                     <div><small>Tip: press Daily Login once per local day to increase streak + points.</small></div>
                 </footer>
             </section>
@@ -201,6 +290,17 @@
             <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
                 <button id="settingsCancel" class="btn-ghost">Cancel</button>
                 <button id="settingsSave" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Badge details modal -->
+    <dialog id="badgeDialog" style="border:0;border-radius:16px;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+        <div style="padding:16px 16px 8px;font-family:var(--kawaii)">
+            <h3 id="badgeTitle" style="margin:0 0 10px">Badge Details</h3>
+            <p id="badgeDesc" style="margin:0 0 10px">Description here.</p>
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+                <button id="badgeClose" class="btn-primary">Close</button>
             </div>
         </div>
     </dialog>
