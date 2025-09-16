@@ -1,5 +1,25 @@
+# Python/Streamlit
+__pycache__/
+.streamlit/
+.venv/
+venv/
+env/
+
+# Node/Frontend
+node_modules/
+dist/
+.vercel/
+.netlify/
+
+# Environment & secrets
+.env
+auth-config.js
+
+# OS
+.DS_Store
+Thumbs.db
 venv/
 __pycache__/
 *.pyc
 .env
-
+.vscode

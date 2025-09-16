@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Eco — User Dashboard</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- Meta -->
+    <meta name="description" content="Kawaii-themed user dashboard with ecopoints and streaks" />
+</head>
+
+<body>
+    <div id="app" class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo-kawaii" aria-hidden="true">
+                    <!-- tiny kawaii leaf logo -->
+                    <svg viewBox="0 0 64 64" width="36" height="36" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#A6F3C5" />
+                                <stop offset="1" stop-color="#7AE6A8" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M10 40 C18 10 46 10 54 40 C32 56 32 56 10 40 Z" fill="url(#g)" stroke="#6cd08b" />
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <strong>EcoLearn</strong>
+                    <small>kawaii hub</small>
+                </div>
+            </div>
+
+            <nav class="nav">
+                <button class="nav-item active"><span class="nav-emoji">🏠</span> Dashboard</button>
+                <button class="nav-item"><span class="nav-emoji">🏆</span> Achievements</button>
+                <button class="nav-item"><span class="nav-emoji">🌱</span> Eco Missions</button>
+                <button class="nav-item"><span class="nav-emoji">⚙️</span> Settings</button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <small>Version 1.0 • <span id="sidebar-date"></span></small>
+                <button id="collapseBtn" class="collapse-btn" aria-label="Toggle sidebar">⟵</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button id="hamburger" class="hamburger" aria-label="Open menu">☰</button>
+                <div class="search">
+                    <input id="searchInput" placeholder="Search missions, badges..." />
+                </div>
+                <div class="top-actions">
+                    <div class="notif">🔔 <span class="badge-dot" id="notifDot" aria-hidden="true"></span></div>
+                    <button id="openSettings" class="icon-btn" title="Settings">⚙️</button>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <section class="content">
+                <div class="greeting-card card">
+                    <div class="greet-left">
+                        <div id="avatarWrap" class="avatar-wrap">
+                            <!-- avatar injected by JS (img or svg) -->
+                        </div>
+                        <div class="user-meta">
+                            <div class="greeting" id="greeting">Good day,</div>
+                            <div class="username-row">
+                                <h2 id="usernameDisplay">EcoFriend</h2>
+                                <button id="editNameBtn" class="icon-btn" title="Edit name">✏️</button>
+                            </div>
+                            <input id="usernameInput" class="hidden-input" maxlength="20" />
+                        </div>
+                    </div>
+
+                    <div class="greet-right">
+                        <div class="points">
+                            <div class="points-value" id="ecoPoints">0</div>
+                            <div class="points-label">Ecopoints</div>
+                        </div>
+
+                        <div class="streak">
+                            <div class="streak-value" id="streakCount">0</div>
+                            <div class="streak-label">Daily streak</div>
+                        </div>
+
+                        <div class="daily-login">
+                            <button id="dailyBtn" class="btn-primary">Daily Login 🌞</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <!-- Badges -->
+                    <div class="card badges-card">
+                        <div class="card-header">
+                            <h3>Badges</h3>
+                            <small>Collect achievements</small>
+                        </div>
+                        <div id="badgesWrap" class="badges-wrap" aria-live="polite">
+                            <!-- badges injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Activity / Missions -->
+                    <div class="card tasks-card">
+                        <div class="card-header">
+                            <h3>Quick Missions</h3>
+                            <small>Earn ecopoints & badges</small>
+                        </div>
+
+                        <ul class="missions">
+                            <li>
+                                <div>
+                                    <strong>Plant a sapling</strong>
+                                    <small>Earn 50 ecopoints</small>
+                                </div>
+                                <button class="btn-ghost" data-points="50">Mark done</button>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>Recycle old bottle</strong>
+                                    <small>Earn 20 ecopoints</small>
+                                </div>
+                                <button class="btn-ghost" data-points="20">Mark done</button>
+                            </li>
+                            <li>
+                                <div>
+                                    <strong>Go to courses</strong>
+                                    <small>Earn 30 ecopoints</small>
+                                </div>
+                                <button class="btn-ghost" data-points="30">Mark done</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Attendance Report -->
+                    <div class="card attendance-card">
+                        <div class="card-header">
+                            <h3>Attendance Report</h3>
+                            <small>Last 16 weeks</small>
+                        </div>
+                        <div class="attendance-wrap">
+                            <div class="attendance-side-labels" aria-hidden="true">
+                                <span>S</span>
+                                <span>M</span>
+                                <span>T</span>
+                                <span>W</span>
+                                <span>T</span>
+                                <span>F</span>
+                                <span>S</span>
+                            </div>
+                            <div id="attendanceHeatmap" class="attendance-grid" aria-label="Attendance heatmap"
+                                role="grid"></div>
+                        </div>
+                        <div class="attendance-legend" aria-hidden="true">
+                            <span>Less</span>
+                            <i class="lvl-0"></i>
+                            <i class="lvl-1"></i>
+                            <i class="lvl-2"></i>
+                            <i class="lvl-3"></i>
+                            <i class="lvl-4"></i>
+                            <span>More</span>
+                        </div>
+                    </div>
+
+                    <!-- Leaderboard (Top 3 Institutions) -->
+                    <div class="card leaderboard-card">
+                        <div class="card-header">
+                            <h3>🏫 Institution Leaderboard</h3>
+                            <small>Top 3 by EcoPoints</small>
+                        </div>
+                        <ol id="leaderboardList" class="leaderboard"></ol>
+                    </div>
+                </div>
+
+                <footer class="page-footer">
+                    <div>Made with ❤️ and leaves • Stay green 🌿</div>
+                    <div><small>Tip: press Daily Login once per local day to increase streak + points.</small></div>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <!-- Settings modal -->
+    <dialog id="settingsDialog" style="border:0;border-radius:16px;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+        <div style="padding:16px 16px 8px;font-family:var(--kawaii)">
+            <h3 style="margin:0 0 10px">Settings</h3>
+            <label style="display:block;font-weight:700;margin:6px 0">Display name</label>
+            <input id="settingsName" style="width:100%;padding:10px;border-radius:12px;border:1px solid #eee" />
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+                <button id="settingsCancel" class="btn-ghost">Cancel</button>
+                <button id="settingsSave" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Supabase JS (only if keys present in localStorage) -->
+    <script>
+        (function () {
+            var sbUrl = localStorage.getItem('SB_URL');
+            var sbKey = localStorage.getItem('SB_KEY');
+            if (sbUrl && sbKey) {
+                var s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                s.defer = true;
+                document.head.appendChild(s);
+            }
+        })();
+    </script>
+    <!-- JS -->
+    <script src="UserDashboard.js" defer></script>
+</body>
+
+</html>

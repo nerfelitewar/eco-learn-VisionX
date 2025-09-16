@@ -263,11 +263,29 @@ def auth_screen():
                     else:
                         user = result.get("user")
                         profile = result.get("profile") or {}
-                        st.session_state.user_email = email
-                        st.session_state.username = profile.get("username") if profile else (email.split("@")[0])
-                        st.session_state.profile = profile
-                        st.success(f"Welcome back, {st.session_state.username} — to EcoLearn!")
-                        safe_rerun()
+                        # Prepare redirect to static dashboard and stash essentials in localStorage
+                        dash_url = "UserDashboard.html"
+                        profile_json = profile if profile else {
+                            "username": (email.split("@")[0]),
+                            "email": email,
+                            "eco_points": 0,
+                            "avatar": "🌱"
+                        }
+                        st.markdown(
+                            f"""
+                            <script>
+                            try {{
+                              localStorage.setItem('USER_EMAIL', {email!r});
+                              localStorage.setItem('PROFILE_JSON', JSON.stringify({profile_json}));
+                              {'localStorage.setItem(\'SB_URL\', ' + repr(SUPABASE_URL) + ');' if SUPABASE_URL else ''}
+                              {'localStorage.setItem(\'SB_KEY\', ' + repr(SUPABASE_KEY) + ');' if SUPABASE_KEY else ''}
+                            }} catch(e) {{ console.warn('localStorage set failed', e); }}
+                            window.location.href = '{dash_url}';
+                            </script>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+                        st.stop()
     with col2:
         st.markdown("<div class='card'><h3>What is EcoLearn?</h3><ul>"
                     "<li>Interactive, gamified environmental learning platform</li>"
