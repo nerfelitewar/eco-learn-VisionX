@@ -1,6 +1,0 @@
-- [x] Add points property to defaultUser badges for consistency
-- [x] Add helper function updateBadge(id, earned, points) to update badge state and save user
-- [x] Update dailyLogin() to use updateBadge for 'seed' badge
-- [x] Update attachMissionButtons() to use updateBadge for 'sapling' badge
-- [x] Update renderBadges() to save user after marking badges as seen
-- [ ] Test badge earning, points display, and notification dot behavior
