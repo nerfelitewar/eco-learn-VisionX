@@ -88,6 +88,11 @@
                     </svg>
                     Settings
                 </button>
+                <a href="index.html" class="nav-item btn-primary inline-flex items-center px-4 py-2 rounded-full" role="button"
+                    aria-label="Go back to home">
+                    Go Back
+                </a>
+
             </nav>
 
             <div class="sidebar-footer">
@@ -192,34 +197,85 @@
                         </div>
 
                         <ul class="missions">
-                            <li>
+                            <li data-task="plant_sapling">
                                 <div>
                                     <strong>Plant a sapling</strong>
                                     <small>Earn 50 ecopoints</small>
                                 </div>
-                                <button class="btn-ghost" data-points="50">Mark done</button>
+                                <button class="btn-ghost mark-done" data-points="50">Mark done</button>
                             </li>
-                            <li>
+                            <li data-task="recycle_bottle">
                                 <div>
                                     <strong>Recycle old bottle</strong>
                                     <small>Earn 20 ecopoints</small>
                                 </div>
-                                <button class="btn-ghost" data-points="20">Mark done</button>
+                                <button class="btn-ghost mark-done" data-points="20">Mark done</button>
                             </li>
-                            <li>
+                            <li data-task="go_courses">
                                 <div>
                                     <strong>Go to courses</strong>
                                     <small>Earn 30 ecopoints</small>
                                 </div>
-                                <button class="btn-ghost" data-points="30">Mark done</button>
+                                <button class="btn-ghost mark-done" data-points="30">Mark done</button>
+                            </li>
+                            <li data-task="attempt_quiz">
+                                <div>
+                                    <strong>Attempted Quiz?</strong>
+                                    <small>Earn 50 ecopoints</small>
+                                </div>
+                                <button class="btn-ghost mark-done" data-points="50">Mark done</button>
+                            </li>
+                        
+                            <!-- New upload-mission items (image/video uploads) -->
+                            <li data-task="upload_plant_image">
+                                <div>
+                                    <strong>Upload image — you planting a tree</strong>
+                                    <small>Earn 70 ecopoints (on approved upload)</small>
+                                </div>
+                                <label class="btn-ghost" style="cursor:pointer;">
+                                    <input class="hidden-file-input" type="file" accept="image/*" style="display:none" />
+                                    Upload Image
+                                </label>
+                            </li>
+                            <li data-task="upload_ecopark_image">
+                                <div>
+                                    <strong>Upload image — visiting an eco-park</strong>
+                                    <small>Earn 40 ecopoints</small>
+                                </div>
+                                <label class="btn-ghost" style="cursor:pointer;">
+                                    <input class="hidden-file-input" type="file" accept="image/*" style="display:none" />
+                                    Upload Image
+                                </label>
+                            </li>
+                            <li data-task="upload_nature_video">
+                                <div>
+                                    <strong>Upload short video — exploring nature</strong>
+                                    <small>Earn 120 ecopoints (max 30s)</small>
+                                </div>
+                                <label class="btn-ghost" style="cursor:pointer;">
+                                    <input class="hidden-file-input" type="file" accept="video/*" style="display:none" />
+                                    Upload Video
+                                </label>
                             </li>
                         </ul>
+                        
+                        <!-- Gallery of small previews -->
+                        <div id="uploadsGallery" style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:flex-start;"></div>
+                        
+                        <!-- Modal for zoomed preview -->
+                        <div id="mediaModal"
+                            style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.7); align-items:center; justify-content:center;">
+                            <div id="mediaModalInner" style="max-width:90vw; max-height:90vh; overflow:auto; border-radius:12px;">
+                                <!-- content injected by JS -->
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Attendance Report -->
                     <div class="card attendance-card">
                         <div class="card-header">
-                            <h3>Attendance Report</h3>
+                            <h3>Mark you attendance here!</h3>
                             <small>Last 16 weeks</small>
                         </div>
                         <div class="attendance-wrap">

@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EcoLearn - Gamified Environmental Education Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .rotate-slow {
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pulse-custom {
+            animation: pulse-custom 2s infinite;
+        }
+
+        @keyframes pulse-custom {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .navbar-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: white;
+        }
+
+        .slider {
+            width: 100%;
+            height: var(--height);
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, #000 10% 90%, transparent);
+        }
+
+        .slider .list {
+            display: flex;
+            width: 100%;
+            min-width: calc(var(--width) * var(--quantity));
+            position: relative;
+        }
+
+        .slider .list .item {
+            width: var(--width);
+            height: var(--height);
+            position: absolute;
+            left: 100%;
+            animation: autoRun 20s linear infinite;
+            transition: filter 0.5s;
+            animation-delay: calc((20s / var(--quantity)) * (var(--position) - 1) - 20s) !important;
+        }
+
+        .slider .list .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        @keyframes autoRun {
+            from {
+                left: 100%;
+            }
+
+            to {
+                left: calc(var(--width) * -1);
+            }
+        }
+
+        .slider:hover .item {
+            animation-play-state: paused !important;
+            filter: grayscale(1);
+        }
+
+        .slider .item:hover {
+            filter: grayscale(0);
+        }
+
+        .slider[reverse="true"] .item {
+            animation: reversePlay 20s linear infinite;
+        }
+
+        @keyframes reversePlay {
+            from {
+                left: calc(var(--width) * -1);
+            }
+
+            to {
+                left: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <a href="#home" class="nav-link">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">EcoLearn</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8 flex-1 justify-center">
+                    <a href="#home" class="text-gray-700 hover:text-green-600 transition-colors nav-link">Home</a>
+                    <a href="UserDashboard.html" id="dashboardLink"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Dashboard</a>
+                    <div class="relative">
+                        <button id="challengesDropdownBtn"
+                            class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2 flex items-center" aria-haspopup="true"
+                            aria-expanded="false" aria-controls="challengesDropdown">
+                            Challenges
+                            <i class="fas fa-chevron-down ml-1 text-sm" aria-hidden="true"></i>
+                        </button>
+                        
+                        <div id="challengesDropdown"
+                            class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50"
+                            role="menu" aria-labelledby="challengesDropdownBtn">
+                            <a href="challenges-class1-8.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 first:rounded-t-lg transition-colors"
+                                role="menuitem" tabindex="-1">
+                                <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>
+                                Challenges for Class 1-8
+                            </a>
+                            <a href="challenges-class9-12.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 last:rounded-b-lg transition-colors"
+                                role="menuitem" tabindex="-1">
+                                <i class="fas fa-university mr-2" aria-hidden="true"></i>
+                                Challenges for Class 9-12
+                            </a>
+                        </div>
+                    </div>
+                    <a href="resources-quizzes.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Resources and Quizzes</a>
+                    <a href="games.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Games</a>
+                    <a href="UserDashboard.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Leaderboard</a>
+                    <a href="#analytics"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Analytics</a>
+                    <a href="#about" class="text-gray-700 hover:text-green-600 transition-colors nav-link">About Us</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        Get Started
+                    </button>
+                    <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+                <script>
+                    document.getElementById("loginBtn").addEventListener("click", function () {
+                        window.location.href = "login_signup.html";
+                    });
+                    (function () {
+                            const btn = document.getElementById('challengesDropdownBtn');
+                            const menu = document.getElementById('challengesDropdown');
+
+                            if (!btn || !menu) return;
+
+                            function isOpen() {
+                                return btn.getAttribute('aria-expanded') === 'true';
+                            }
+                            function openMenu() {
+                                menu.classList.remove('hidden');
+                                btn.setAttribute('aria-expanded', 'true');
+                            }
+                            function closeMenu() {
+                                menu.classList.add('hidden');
+                                btn.setAttribute('aria-expanded', 'false');
+                            }
+                            // toggle on click
+                            btn.addEventListener('click', function (ev) {
+                                ev.stopPropagation();
+                                if (isOpen()) closeMenu(); else openMenu();
+                            });
+
+                            // close when clicking outside
+                            document.addEventListener('click', function (ev) {
+                                if (isOpen() && !menu.contains(ev.target) && !btn.contains(ev.target)) {
+                                    closeMenu();
+                                }
+                            }, { capture: true });
+
+                            // keyboard accessibility
+                            btn.addEventListener('keydown', function (ev) {
+                                if (ev.key === 'Escape') return closeMenu();
+                                if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'ArrowDown') {
+                                    ev.preventDefault();
+                                    openMenu();
+                                    const first = menu.querySelector('[role="menuitem"]');
+                                    if (first) first.focus();
+                                }
+                            });
+
+                            // close on Escape when focus is inside menu
+                            menu.addEventListener('keydown', function (ev) {
+                                if (ev.key === 'Escape') {
+                                    closeMenu();
+                                    btn.focus();
+                                }
+                            });
+
+                            // ensure links are focusable when menu opens (nice-to-have)
+                            const items = menu.querySelectorAll('[role="menuitem"]');
+                            items.forEach(i => i.setAttribute('tabindex', '-1'));
+                        })();
+                </script>
+
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden mt-4 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <a href="#home" class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+                    <a href="UserDashboard.html" id="dashboardLinkMobile"
+                        class="block py-2 text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="#challenges" class="block py-2 text-gray-700 hover:text-green-600">Challenges</a>
+                    <a href="challenges-class1-8.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Challenges for Class 1-8
+                    </a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-university mr-2"></i>
+                        Challenges for Class 9-12
+                    </a>
+                    <a href="#quizzes" class="block py-2 text-gray-700 hover:text-green-600">Resources and Quizzes</a>
+                    <a href="games.html" class="block py-2 text-gray-700 hover:text-green-600">Games</a>
+                    <a href="#leaderboard" class="block py-2 text-gray-700 hover:text-green-600">Leaderboard</a>
+                    <a href="#analytics" class="block py-2 text-gray-700 hover:text-green-600">Analytics</a>
+                    <a href="#about" class="block py-2 text-gray-700 hover:text-green-600">About Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+        <!-- Floating Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 floating-animation">
+                <div class="w-20 h-20 bg-green-400 rounded-full opacity-20 rotate-slow"></div>
+            </div>
+            <div class="absolute top-40 right-20 floating-animation" style="animation-delay: -2s;">
+                <div class="w-16 h-16 bg-blue-400 rounded-full opacity-20"></div>
+            </div>
+            <div class="absolute bottom-40 left-1/4 floating-animation" style="animation-delay: -4s;">
+                <div class="w-12 h-12 bg-yellow-400 rounded-full opacity-20 rotate-slow"></div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
+                    <script type="module"
+                        src="https://unpkg.com/@splinetool/viewer@1.10.57/build/spline-viewer.js"></script>
+                    <spline-viewer url="https://prod.spline.design/VUkGtokQCH45R08M/scene.splinecode"></spline-viewer>
+                    <h1 class="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                        Learn. Play. Act.<br />
+                        <span class="text-green-300">Save the Planet.</span>
+                    </h1>
+                    <p class="text-xl text-gray-200 mb-8 max-w-2xl">
+                        Join thousands of students in the most engaging environmental education platform.
+                        Complete challenges, take quizzes, and make a real impact on our planet!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button onclick="scrollToSection('about')"
+                            class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-gray-800 transition-all duration-300">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Learn More
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-center lg:justify-start space-x-8 mt-12">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-white">5K+</div>
+                            <div class="text-green-300">Students</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-white">200+</div>
+                            <div class="text-green-300">Colleges</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-white">50K+</div>
+                            <div class="text-green-300">Trees Planted</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 mt-12 lg:mt-0" data-aos="fade-left">
+                    <div class="relative">
+                        <!-- 3D Earth Model Representation -->
+                        <div class="relative mx-auto w-96 h-96">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-blue-400 to-green-500 rounded-full rotate-slow opacity-80">
+                            </div>
+                            <div
+                                class="absolute inset-4 bg-gradient-to-br from-green-400 to-blue-400 rounded-full floating-animation opacity-90">
+                            </div>
+                            <div
+                                class="absolute inset-8 bg-gradient-to-br from-blue-300 to-green-300 rounded-full pulse-custom">
+                            </div>
+
+                            <!-- Floating Icons -->
+                            <div class="absolute top-8 left-8 floating-animation">
+                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-seedling text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="absolute top-16 right-12 floating-animation" style="animation-delay: -1s;">
+                                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-recycle text-blue-600 text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-20 right-8 floating-animation" style="animation-delay: -3s;">
+                                <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-leaf text-green-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Video Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-left mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">United Nations Environmental Video</h2>
+                <p class="text-lg text-gray-600">Learn about global environmental efforts</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto" data-aos="fade-up">
+                <div class="relative border border-gray-300 rounded-lg overflow-hidden"
+                    style="padding-bottom: 56.25%; height: 0;">
+                    <iframe src="https://www.youtube.com/embed/voPkttQKe70"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Choose EcoLearn?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Experience environmental education like never before with our gamified platform designed for the
+                    next generation of eco-warriors.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center card-hover p-8 rounded-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gamepad text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Gamified Learning</h3>
+                    <p class="text-gray-600">
+                        Earn XP, unlock badges, and level up as you complete environmental challenges and quizzes.
+                    </p>
+                </div>
+
+                <div class="text-center card-hover p-8 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Community Competition</h3>
+                    <p class="text-gray-600">
+                        Compete with students from your college and worldwide on leaderboards and collaborative
+                        challenges.
+                    </p>
+                </div>
+
+                <div class="text-center card-hover p-8 rounded-xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-globe text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Real Impact</h3>
+                    <p class="text-gray-600">
+                        Make a tangible difference by participating in real-world environmental initiatives and tracking
+                        your contributions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+            </div>
+
+            <!-- Challenges Grid -->
+            <div id="challengesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Challenge cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Image Slider Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Environmental Gallery</h2>
+                <p class="text-xl text-gray-600">Explore beautiful environmental scenes from around the world</p>
+            </div>
+
+            <div class="slider" reverse="true" style="--width: 300px; --height: 200px; --quantity: 12;">
+                <div class="list">
+                    <div class="item" style="--position: 1;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.47.35_7f2bb8e2.jpg" alt="Forest Landscape">
+                    </div>
+                    <div class="item" style="--position: 2;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.47.56_755eba16.jpg" alt="Ocean Waves"></div>
+                    <div class="item" style="--position: 3;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.48.09_dc99fdd3.jpg" alt="Mountain View"></div>
+                    <div class="item" style="--position: 4;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.48.47_1e3c6d7f.jpg" alt="Green Forest"></div>
+                    <div class="item" style="--position: 5;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.50.41_19727bf0.jpg" alt="Nature Scene"></div>
+                    <div class="item" style="--position: 6;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.51.23_929b27b3.jpg" alt="Environmental Beauty">
+                    </div>
+                    <div class="item" style="--position: 8;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 00.54.47_83c7fa9d.jpg" alt="Natural Wonders"></div>
+                    <div class="item" style="--position: 9;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 01.05.07_788acb02.jpg" alt="Eco-Friendly"></div>
+                    <div class="item" style="--position: 10;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 01.05.07_ad8da03f.jpg" alt="Sustainable World">
+                    </div>
+                    <div class="item" style="--position: 11;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 01.05.08_3d8d9465.jpg" alt="Planet Earth"></div>
+                    <div class="item" style="--position: 12;"><img
+                            src="images/WhatsApp Image 2025-09-17 at 01.05.08_ba5e8e7f.jpg" alt="Green Planet"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analytics" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">India – Environmental Impact Stats</h2>
+                <p class="text-xl text-gray-600">Annual environmental impact data for India</p>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-cloud text-red-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">CO₂ Emissions</h4>
+                    <div class="text-2xl font-bold text-red-600 mb-2">3.44B tonnes CO₂e/year</div>
+                    <p class="text-sm text-gray-600">India's 3rd largest global emitter</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-water text-blue-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Water Use</h4>
+                    <div class="text-2xl font-bold text-blue-600 mb-2">700B m³/year</div>
+                    <p class="text-sm text-gray-600">85% for agriculture</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tree text-green-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Forest Cover</h4>
+                    <div class="text-2xl font-bold text-green-600 mb-2">71.7M hectares</div>
+                    <p class="text-sm text-gray-600">21.7% of land area</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-orange-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Annual Forest Loss</h4>
+                    <div class="text-2xl font-bold text-orange-600 mb-2">132K hectares/year</div>
+                    <p class="text-sm text-gray-600">Due to agriculture & urbanization</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-seedling text-green-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">Net Tree Cover Gain</h4>
+                    <div class="text-2xl font-bold text-green-600 mb-2">Positive</div>
+                    <p class="text-sm text-gray-600">Afforestation drives</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center card-hover">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-purple-600 text-xl"></i>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-800 mb-2">CO₂ Sequestration</h4>
+                    <div class="text-2xl font-bold text-purple-600 mb-2">331M tonnes/year</div>
+                    <p class="text-sm text-gray-600">Offsets 9-10% of emissions</p>
+                </div>
+            </div>
+
+            <!-- India Environmental Impact Table -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-12" data-aos="fade-up">
+                <table class="min-w-full table-auto border-collapse border border-gray-300 text-gray-700">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Metric</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Value</th>
+                            <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Notes / Explanation
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border border-gray-300">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">CO₂ Emissions</td>
+                            <td class="border border-gray-300 px-4 py-2">3.44 billion tonnes CO₂e per year</td>
+                            <td class="border border-gray-300 px-4 py-2">India is the 3rd largest emitter globally, with
+                                energy, transport, and industry being the main contributors.</td>
+                        </tr>
+                        <tr class="border border-gray-300 bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">Water Use</td>
+                            <td class="border border-gray-300 px-4 py-2">700 billion cubic meters per year</td>
+                            <td class="border border-gray-300 px-4 py-2">Agriculture accounts for ~85% of India's
+                                freshwater use, mainly for rice, wheat, sugarcane, and cotton.</td>
+                        </tr>
+                        <tr class="border border-gray-300">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">Forest Cover</td>
+                            <td class="border border-gray-300 px-4 py-2">71.7 million hectares (~21.7% of land area)
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2">Includes dense and open forests as per FSI
+                                (Forest Survey of India) 2021 report.</td>
+                        </tr>
+                        <tr class="border border-gray-300 bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">Annual Forest Loss</td>
+                            <td class="border border-gray-300 px-4 py-2">132,000 hectares per year</td>
+                            <td class="border border-gray-300 px-4 py-2">Caused by agriculture expansion, mining,
+                                shifting cultivation, and urbanization.</td>
+                        </tr>
+                        <tr class="border border-gray-300">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">Net Gain in Tree Cover</td>
+                            <td class="border border-gray-300 px-4 py-2">Positive</td>
+                            <td class="border border-gray-300 px-4 py-2">Despite localized forest loss, massive
+                                afforestation drives (e.g., CAMPA, state-level plantation programs) add tree cover
+                                yearly.</td>
+                        </tr>
+                        <tr class="border border-gray-300 bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2 font-semibold">CO₂ Sequestration</td>
+                            <td class="border border-gray-300 px-4 py-2">331 million tonnes CO₂ absorbed per year</td>
+                            <td class="border border-gray-300 px-4 py-2">Forests and tree cover offset ~9–10% of India's
+                                annual emissions, acting as a major carbon sink.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">About EcoLearn</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    EcoLearn is dedicated to transforming environmental education through innovative gamification and
+                    real-world impact. Our mission is to empower students worldwide to become proactive environmental
+                    stewards by making learning engaging, interactive, and impactful.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                <div data-aos="fade-right">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6">Our Mission</h3>
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        We align with India's National Education Policy (NEP) 2020 and the United Nations Sustainable
+                        Development Goals (SDGs). Our platform fosters environmental awareness and action through
+                        gamified challenges, interactive quizzes, and real-world impact tracking.
+                    </p>
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        By engaging students in meaningful activities, we aim to cultivate a generation of eco-conscious
+                        leaders who will drive sustainable change globally.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">NEP 2020 Aligned</h4>
+                                <p class="text-gray-600 text-sm">Curriculum aligned with national education policy</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">SDG Focused</h4>
+                                <p class="text-gray-600 text-sm">Supporting UN Sustainable Development Goals</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Gamified Learning</h4>
+                                <p class="text-gray-600 text-sm">Making education fun and engaging</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-orange-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Real Impact</h4>
+                                <p class="text-gray-600 text-sm">Measurable environmental outcomes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left">
+                    <div class="relative">
+                        <img src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202404/how-nature-based-learning-is-transforming-early-education-111534909-16x9_0.jpg?VersionId=cVjwcBmbZ9ws6eNyBUcju9a7dLIWzr.X&size=690:388"
+                            alt="Students learning about environment" class="rounded-2xl shadow-xl">
+                        <div class="absolute inset-0 bg-green-500 bg-opacity-20 rounded-2xl"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold">EcoLearn</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Empowering students worldwide to create a sustainable future through gamified environmental
+                        education.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#dashboard"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Dashboard</a></li>
+                        <li><a href="#challenges"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Challenges</a></li>
+                        <li><a href="#quizzes" class="text-gray-400 hover:text-green-400 transition-colors">Resources
+                                and Quizzes</a></li>
+                        <li><a href="games.html" class="text-gray-400 hover:text-green-400 transition-colors">Games</a>
+                        </li>
+                        <li><a href="#leaderboard"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Leaderboard</a></li>
+                        <li><a href="#analytics"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Analytics</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources and Quizzes</h4>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.epa.gov/environmental-topics/environmental-topics-guides"
+                                target="_blank" rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Environmental Guide</a>
+                        </li>
+                        <li><a href="https://www.un.org/sustainabledevelopment/sustainable-consumption-production/"
+                                target="_blank" rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Sustainability Tips</a>
+                        </li>
+                        <li><a href="https://scholar.google.com/scholar?q=environmental+research+papers" target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Research Papers</a></li>
+                        <li><a href="https://www.epa.gov/smm/sustainable-management-materials-best-practices"
+                                target="_blank" rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Best Practices</a></li>
+                        <li><a href="https://www.nature.com/collections/ccdcjcbjdc" target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-green-400 transition-colors">Case Studies</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-green-400 transition-colors">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 EcoLearn. All rights reserved. Building a sustainable future.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Additional Sections for Support Links -->
+
+    <!-- Removed Contact Us section as per user request -->
+
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-blur');
+            } else {
+                navbar.classList.remove('navbar-blur');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Nav links smooth scroll
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Login Modal
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('loginBtn').addEventListener('click', openLoginModal);
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const college = document.getElementById('studentCollege').value;
+
+            // Store user data in localStorage (simulating login)
+            const userData = {
+                id: 'user_' + Date.now(),
+                name: name,
+                email: email,
+                college: college,
+                xp_points: 0,
+                level: 1,
+                badges: [],
+                completed_challenges: [],
+                completed_quizzes: [],
+                avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+                join_date: new Date().toISOString()
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            closeLoginModal();
+
+            // Show success message and redirect to dashboard
+            alert(`Welcome ${name}! Redirecting to your dashboard...`);
+            setTimeout(() => {
+                scrollToSection('dashboard');
+            }, 1000);
+        });
+
+        // Check if user is logged in
+        function isLoggedIn() {
+            return localStorage.getItem('currentUser') !== null;
+        }
+
+        function getCurrentUser() {
+            const userData = localStorage.getItem('currentUser');
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Update login button based on user state
+        function updateLoginButton() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (isLoggedIn()) {
+                const user = getCurrentUser();
+                loginBtn.innerHTML = `<i class="fas fa-user mr-2"></i>${user.name}`;
+                loginBtn.onclick = () => scrollToSection('dashboard');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateLoginButton();
+
+            // Challenges dropdown toggle
+            const challengesDropdownBtn = document.getElementById('challengesDropdownBtn');
+            const challengesDropdown = document.getElementById('challengesDropdown');
+
+            challengesDropdownBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                challengesDropdown.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!challengesDropdownBtn.contains(e.target) && !challengesDropdown.contains(e.target)) {
+                    challengesDropdown.classList.add('hidden');
+                }
+            });
+
+            // Chatbot functionality
+            const chatbotIcon = document.getElementById('chatbotIcon');
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            const closeChatbot = document.getElementById('closeChatbot');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendMessage = document.getElementById('sendMessage');
+
+            if (chatbotIcon && chatbotWindow && chatInput && sendMessage && closeChatbot) {
+                chatbotIcon.addEventListener('click', () => {
+                    if (chatbotWindow.classList.contains('hidden')) {
+                        chatbotWindow.classList.remove('hidden');
+                        chatInput.focus();
+                    } else {
+                        chatbotWindow.classList.add('hidden');
+                    }
+                });
+
+                closeChatbot.addEventListener('click', () => {
+                    chatbotWindow.classList.add('hidden');
+                });
+
+                function appendMessage(sender, message) {
+                    const messageWrapper = document.createElement('div');
+                    messageWrapper.classList.add('flex', 'items-start', 'space-x-3');
+                    if (sender === 'user') {
+                        messageWrapper.classList.add('justify-end', 'flex-row-reverse');
+                    }
+
+                    const avatar = document.createElement('div');
+                    avatar.classList.add('w-8', 'h-8', 'rounded-full', 'flex', 'items-center', 'justify-center', 'flex-shrink-0');
+                    if (sender === 'bot') {
+                        avatar.classList.add('bg-green-100');
+                        avatar.innerHTML = '<i class="fas fa-leaf text-green-600 text-sm"></i>';
+                    } else {
+                        avatar.classList.add('bg-blue-100');
+                        avatar.innerHTML = '<i class="fas fa-user text-blue-600 text-sm"></i>';
+                    }
+
+                    const messageBubble = document.createElement('div');
+                    messageBubble.classList.add('rounded-2xl', 'p-3', 'max-w-xs');
+                    if (sender === 'bot') {
+                        messageBubble.classList.add('bg-gray-100', 'rounded-tl-md');
+                    } else {
+                        messageBubble.classList.add('bg-blue-100', 'text-white');
+                    }
+                    messageBubble.textContent = message;
+
+                    messageWrapper.appendChild(avatar);
+                    messageWrapper.appendChild(messageBubble);
+                    chatMessages.appendChild(messageWrapper);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+
+                // Simple chatbot response logic with varied answers
+                function getBotResponse(userMessage) {
+                    const msg = userMessage.toLowerCase().trim();
+                    if (msg.includes('eco') && msg.includes('learn')) {
+                        return 'EcoLearn is a gamified environmental education platform designed to engage students.';
+                    } else if (msg.includes('features')) {
+                        return 'EcoLearn offers gamified learning, community competition, and real-world impact tracking.';
+                    } else if (msg.includes('mission')) {
+                        return 'Our mission is to empower students to become proactive environmental stewards.';
+                    } else if (msg.includes('hello') || msg.includes('hi')) {
+                        return 'Hello! How can I assist you with EcoLearn today?';
+                    } else if (msg.includes('thank')) {
+                        return 'You\'re welcome! Feel free to ask more questions.';
+                    } else if (msg.includes('help')) {
+                        return 'I can help you with information about EcoLearn, environmental topics, and how to use the platform. What would you like to know?';
+                    } else if (msg.includes('challenge')) {
+                        return 'EcoLearn has various challenges for different age groups. Check out the Challenges section for more details.';
+                    } else if (msg.includes('quiz')) {
+                        return 'Quizzes are available in the Resources and Quizzes section to test your environmental knowledge.';
+                    } else if (msg.includes('game') || msg.includes('games')) {
+                        return 'EcoLearn offers fun and educational games to reinforce environmental concepts. Check out the Games section to play!';
+                    } else if (msg.includes('what')) {
+                        return 'EcoLearn is a platform for environmental education. What specifically would you like to know?';
+                    } else if (msg.includes('how')) {
+                        return 'EcoLearn works by providing interactive challenges, quizzes, and games to make environmental learning engaging.';
+                    } else if (msg.includes('why')) {
+                        return 'EcoLearn aims to educate students about environmental issues through gamification to create a sustainable future.';
+                    } else {
+                        return 'I\'m sorry, I didn\'t understand that. Could you please rephrase?';
+                    }
+                }
+
+                sendMessage.addEventListener('click', () => {
+                    const userMessage = chatInput.value.trim();
+                    if (!userMessage) return;
+
+                    appendMessage('user', userMessage);
+                    chatInput.value = '';
+
+                    // Get bot response and append
+                    const botResponse = getBotResponse(userMessage);
+                    appendMessage('bot', botResponse);
+                });
+
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage.click();
+                    }
+                });
+            }
+        });
+    </script>
+    
+
+    <script src="js/app.js"></script>
+    <style>
+        /* Overlay a solid block to hide the "Built with Spline" badge */
+        spline-viewer::part(built-with-spline) {
+            display: none !important;
+        }
+
+        /* If above doesn't work, overlay a black rectangle on the badge position */
+        .spline-badge-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 40px;
+            background-color: black;
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+        }
+    </style>
+    <script>
+            window.addEventListener('load', () => {
+                // Add overlay div to cover the badge
+                const overlay = document.createElement('div');
+                overlay.className = 'spline-badge-overlay';
+                const splineViewer = document.querySelector('spline-viewer');
+                if (splineViewer) {
+                    splineViewer.style.position = 'relative';
+                    splineViewer.appendChild(overlay);
+                }
+            });
+        </script>
+</body>
+
+</html>

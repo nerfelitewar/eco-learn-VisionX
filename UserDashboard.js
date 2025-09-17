@@ -657,3 +657,206 @@
 
   })();
   
+
+  // ====== Upload missions + points (drop this into UserDashboard.js) ======
+(function () {
+  // config: points for upload tasks (aligns with labels above)
+  const uploadPointsMap = {
+    upload_plant_image: 70,
+    upload_ecopark_image: 40,
+    upload_nature_video: 120
+  };
+
+  // helpers: localStorage keys
+  const LS_POINTS = 'ecoPointsValue';
+  const LS_COMPLETED = 'ecoCompletedTasks'; // object map
+  const LS_UPLOADS = 'ecoUploads'; // array of uploads
+
+  // DOM refs
+  const pointsEl = document.getElementById('ecoPoints');
+  const gallery = document.getElementById('uploadsGallery');
+  const modal = document.getElementById('mediaModal');
+  const modalInner = document.getElementById('mediaModalInner');
+
+  // init
+  const getNumber = (k, def = 0) => parseInt(localStorage.getItem(k) || def, 10);
+  let ecoPoints = getNumber(LS_POINTS, 0);
+  pointsEl && (pointsEl.textContent = ecoPoints);
+
+  const completed = JSON.parse(localStorage.getItem(LS_COMPLETED) || '{}');
+  const uploads = JSON.parse(localStorage.getItem(LS_UPLOADS) || '[]');
+
+  // render existing uploads to gallery
+  function renderGallery() {
+    if (!gallery) return;
+    gallery.innerHTML = '';
+    uploads.forEach((u, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'thumb';
+      wrap.dataset.idx = idx;
+      // image
+      if (u.type === 'image') {
+        const img = document.createElement('img');
+        img.src = u.data;
+        img.alt = u.name || 'upload';
+        wrap.appendChild(img);
+      } else if (u.type === 'video') {
+        const vid = document.createElement('video');
+        vid.src = u.data;
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.preload = 'metadata';
+        vid.style.objectFit = 'cover';
+        wrap.appendChild(vid);
+      }
+      // click to open modal
+      wrap.addEventListener('click', () => openModal(u));
+      gallery.appendChild(wrap);
+    });
+  }
+
+  // open modal for zoom view
+  function openModal(u) {
+    modal.style.display = 'flex';
+    modalInner.innerHTML = '';
+    if (u.type === 'image') {
+      const img = document.createElement('img');
+      img.src = u.data;
+      img.style.maxWidth = '90vw';
+      img.style.maxHeight = '90vh';
+      img.style.display = 'block';
+      img.style.borderRadius = '12px';
+      modalInner.appendChild(img);
+    } else if (u.type === 'video') {
+      const video = document.createElement('video');
+      video.src = u.data;
+      video.controls = true;
+      video.autoplay = false;
+      video.style.maxWidth = '90vw';
+      video.style.maxHeight = '90vh';
+      video.style.borderRadius = '12px';
+      modalInner.appendChild(video);
+    }
+  }
+
+  // close modal on overlay click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      modalInner.innerHTML = '';
+    }
+  });
+
+  // update ecopoints UI + persist
+  function addPoints(n) {
+    ecoPoints = (ecoPoints || 0) + Number(n || 0);
+    localStorage.setItem(LS_POINTS, ecoPoints);
+    if (pointsEl) pointsEl.textContent = ecoPoints;
+  }
+
+  // mark-done buttons behavior (for existing tasks)
+  document.querySelectorAll('.mark-done').forEach((btn) => {
+    const li = btn.closest('li');
+    const taskId = li?.dataset?.task || btn.textContent.trim();
+    const points = Number(btn.dataset.points || 0);
+
+    // reflect persisted state
+    if (completed[taskId]) {
+      btn.disabled = true;
+      btn.textContent = 'Done ✓';
+      btn.classList.add('disabled');
+    }
+
+    btn.addEventListener('click', () => {
+      if (completed[taskId]) return;
+      addPoints(points);
+      completed[taskId] = true;
+      localStorage.setItem(LS_COMPLETED, JSON.stringify(completed));
+      btn.disabled = true;
+      btn.textContent = 'Done ✓';
+      btn.classList.add('disabled');
+    });
+  });
+
+  // file upload handlers
+  document.querySelectorAll('.hidden-file-input').forEach((input) => {
+    const li = input.closest('li');
+    const taskId = li?.dataset?.task;
+    input.addEventListener('change', async (ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      if (!file) return;
+
+      // file size guard
+      const maxImageMB = 5;
+      const maxVideoMB = 30;
+      const sizeMB = file.size / (1024 * 1024);
+      if (file.type.startsWith('image/') && sizeMB > maxImageMB) {
+        alert('Image too big. Please use <= ' + maxImageMB + 'MB.');
+        input.value = '';
+        return;
+      }
+      if (file.type.startsWith('video/') && sizeMB > maxVideoMB) {
+        alert('Video too big. Please use <= ' + maxVideoMB + 'MB.');
+        input.value = '';
+        return;
+      }
+
+      // disable input UI so user can't double-upload
+      input.disabled = true;
+      const label = li.querySelector('label');
+      if (label) label.textContent = 'Uploading...';
+
+      // read as dataURL (base64)
+      const reader = new FileReader();
+      reader.onload = function (r) {
+        const data = r.target.result;
+        const type = file.type.startsWith('video/') ? 'video' : 'image';
+
+        // push to uploads list and persist
+        uploads.push({
+          id: Date.now(),
+          task: taskId,
+          type,
+          data,
+          name: file.name,
+          size: file.size
+        });
+        localStorage.setItem(LS_UPLOADS, JSON.stringify(uploads));
+
+        // award points (only once per task)
+        if (!completed[taskId]) {
+          const pts = uploadPointsMap[taskId] || 0;
+          addPoints(pts);
+          completed[taskId] = true;
+          localStorage.setItem(LS_COMPLETED, JSON.stringify(completed));
+        }
+
+        // update UI
+        renderGallery();
+        if (label) label.textContent = 'Uploaded ✓';
+        input.style.display = 'none'; // hide input after upload
+      };
+      reader.onerror = function () {
+        alert('Failed to read file.');
+        input.disabled = false;
+        if (label) label.textContent = 'Upload Image';
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // create "click label triggers file input" behavior (since we used <label> with hidden input)
+  document.querySelectorAll('label.btn-ghost').forEach((lbl) => {
+    const input = lbl.querySelector('input[type=file]');
+    if (!input) return;
+    lbl.addEventListener('click', (e) => {
+      // if already uploaded hide it
+      if (input.disabled) return;
+      input.click();
+    });
+  });
+
+  // initial render
+  renderGallery();
+
+})();

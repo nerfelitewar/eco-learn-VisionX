@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Challenges for Class 9-12 - EcoLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="nav-link" onclick="window.location.href='index.html'; return false;">
+                    <div class="flex items-center space-x-2" style="cursor:pointer;">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">EcoLearn</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-green-600 transition-colors nav-link">Home</a>
+                    <a href="dashboard.html" id="dashboardLink"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Dashboard</a>
+                    <div class="relative">
+                        <button id="challengesDropdownBtn"
+                            class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2 flex items-center">
+                            Challenges
+                            <i class="fas fa-chevron-down ml-1 text-sm"></i>
+                        </button>
+                        <div id="challengesDropdown"
+                            class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                            <a href="challenges-class1-8.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 first:rounded-t-lg transition-colors">
+                                <i class="fas fa-graduation-cap mr-2"></i>
+                                Challenges for Class 1-8
+                            </a>
+                            <a href="challenges-class9-12.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 last:rounded-b-lg transition-colors">
+                                <i class="fas fa-university mr-2"></i>
+                                Challenges for Class 9-12
+                            </a>
+                        </div>
+                    </div>
+                    <a href="resources-quizzes.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Resources and Quizzes</a>
+                    <a href="games.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Leaderboard</a>
+                    <a href="index.html#analytics"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Analytics</a>
+                    <a href="index.html#about"
+                        class="text-gray-700 hover:text-green-600 transition-colors nav-link">About Us</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        Get Started
+                    </button>
+                    <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden mt-4 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <a href="index.html" class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+                    <a href="dashboard.html" id="dashboardLinkMobile"
+                        class="block py-2 text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 text-gray-700 hover:text-green-600">Challenges</a>
+                    <a href="challenges-class1-8.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Challenges for Class 1-8
+                    </a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-university mr-2"></i>
+                        Challenges for Class 9-12
+                    </a>
+                    <a href="resources-quizzes.html" class="block py-2 text-gray-700 hover:text-green-600">Resources and
+                        Quizzes</a>
+                    <a href="games.html" class="block py-2 text-gray-700 hover:text-green-600">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="block py-2 text-gray-700 hover:text-green-600">Leaderboard</a>
+                    <a href="index.html#analytics" class="block py-2 text-gray-700 hover:text-green-600">Analytics</a>
+                    <a href="index.html#about" class="block py-2 text-gray-700 hover:text-green-600">About Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero-gradient py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4" data-aos="fade-up">Challenges for Class 9-12</h1>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                These challenges move to a more advanced level, crafted to truly test the critical thinking,
+                decision-making, and resilience of older students. They mirror real-world scenarios that demand higher
+                effort, teamwork, and innovation — preparing them for adulthood and future responsibilities.
+            </p>
+            <a href="index.html"
+                class="inline-block mt-8 bg-white text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Challenges Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore the Advanced Challenges</h2>
+                <p class="text-lg text-gray-600">Take on these real-world challenges and make a meaningful impact!</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-challenge="carbon-footprint">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="carbon-footprint"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Carbon Footprint Calculator</h3>
+                    <p class="text-gray-600">Calculate daily carbon footprint and reduce it.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="100" data-challenge="mini-debate">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-comments text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="mini-debate"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Mini-Debate</h3>
+                    <p class="text-gray-600">Mini-debate: ban on single-use plastics.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="200" data-challenge="waste-audit">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-search text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="waste-audit"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">DIY Waste Audit</h3>
+                    <p class="text-gray-600">DIY waste audit: classify household waste.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="300" data-challenge="sustainable-city">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-city text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="sustainable-city"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Sustainable Future City</h3>
+                    <p class="text-gray-600">Design a sustainable future city.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="400" data-challenge="water-tracker">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tint text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="water-tracker"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Water Tracker</h3>
+                    <p class="text-gray-600">Track water use and save water daily.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="500" data-challenge="eco-inventor">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-lightbulb text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="eco-inventor"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Eco-Inventor</h3>
+                    <p class="text-gray-600">Invent eco-friendly products and present.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="600" data-challenge="tree-adoption">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tree text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="tree-adoption"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Tree Adoption</h3>
+                    <p class="text-gray-600">Adopt a tree and document its growth.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="700" data-challenge="zero-waste-lunch">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-utensils text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="zero-waste-lunch"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Zero-Waste Lunch Plan</h3>
+                    <p class="text-gray-600">Create a zero-waste lunch plan for a week.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="800" data-challenge="recycling-program">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-recycle text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="recycling-program"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Campus Recycling Program</h3>
+                    <p class="text-gray-600">Develop a campus recycling or composting program.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="900" data-challenge="energy-analysis">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bolt text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="energy-analysis"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Energy Analysis</h3>
+                    <p class="text-gray-600">Analyze your school's energy consumption and suggest improvements.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1000" data-challenge="clean-up-drive">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-broom text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="clean-up-drive"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Clean-Up Drive</h3>
+                    <p class="text-gray-600">Organize a clean-up drive in your locality or nearby public space.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1100" data-challenge="endangered-species">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-paw text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="endangered-species"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Endangered Species Research</h3>
+                    <p class="text-gray-600">Research and present about endangered local species and their conservation.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1200" data-challenge="green-diary">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-book text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="green-diary"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Green Diary</h3>
+                    <p class="text-gray-600">Start a 'green diary' documenting eco-friendly actions every day.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1300" data-challenge="vertical-garden">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-seedling text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="vertical-garden"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Vertical Garden</h3>
+                    <p class="text-gray-600">Build a small vertical garden or balcony garden at home or school.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1400" data-challenge="plastic-survey">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-chart-bar text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="plastic-survey"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Plastic Usage Survey</h3>
+                    <p class="text-gray-600">Conduct a survey on plastic usage in your community and prepare a report.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1500" data-challenge="climate-posters">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-palette text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="climate-posters"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Climate Awareness Posters</h3>
+                    <p class="text-gray-600">Design posters or infographics spreading awareness on climate change.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1600" data-challenge="carpool-challenge">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-car text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="carpool-challenge"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Carpool Challenge</h3>
+                    <p class="text-gray-600">Do a week-long 'carpool or public transport only' challenge.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1700" data-challenge="online-carbon">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-desktop text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="online-carbon"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Online Carbon Offset</h3>
+                    <p class="text-gray-600">Calculate and offset your online carbon footprint (screen time,
+                        electricity).</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1800" data-challenge="social-media-campaign">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-share-alt text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="social-media-campaign"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Social Media Campaign</h3>
+                    <p class="text-gray-600">Run a social media campaign on a chosen environmental issue.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1900" data-challenge="sustainability-skit">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-theater-masks text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="sustainability-skit"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Sustainability Skit</h3>
+                    <p class="text-gray-600">Write and perform a short skit on sustainability or environmental
+                        protection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400">© 2025 EcoLearn. All rights reserved. Building a sustainable future.</p>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Load completed challenges from localStorage
+        function loadCompletedChallenges() {
+            const completed = JSON.parse(localStorage.getItem('completedChallenges9-12') || '[]');
+            document.querySelectorAll('.challenge-card').forEach(card => {
+                const challengeId = card.getAttribute('data-challenge');
+                const checkbox = card.querySelector('.challenge-checkbox');
+                if (completed.includes(challengeId)) {
+                    checkbox.checked = true;
+                    card.style.opacity = '0.5';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        // Save completed challenges to localStorage
+        function saveCompletedChallenges() {
+            const completed = [];
+            document.querySelectorAll('.challenge-checkbox:checked').forEach(checkbox => {
+                const card = checkbox.closest('.challenge-card');
+                const challengeId = card.getAttribute('data-challenge');
+                completed.push(challengeId);
+            });
+            localStorage.setItem('completedChallenges9-12', JSON.stringify(completed));
+        }
+
+        // Handle checkbox changes
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('challenge-checkbox')) {
+                const card = e.target.closest('.challenge-card');
+                const challengeName = card.querySelector('h3').textContent;
+
+                if (e.target.checked) {
+                    // Confirm before marking as completed
+                    if (confirm(`Have you really completed the "${challengeName}" challenge? This will mark it as done and hide it.`)) {
+                        card.style.opacity = '0.5';
+                        card.style.pointerEvents = 'none';
+                        saveCompletedChallenges();
+                    } else {
+                        // Uncheck if not confirmed
+                        e.target.checked = false;
+                    }
+                } else {
+                    // Allow unchecking without confirmation
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                    saveCompletedChallenges();
+                }
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCompletedChallenges();
+        });
+    </script>
+</body>
+
+</html>

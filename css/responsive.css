@@ -1,0 +1,203 @@
+/* Additional responsive styles for enhanced mobile experience */
+
+/* Mobile navigation improvements */
+@media (max-width: 768px) {
+    .hero-gradient {
+        padding-top: 80px;
+    }
+
+    .hero-gradient h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-gradient p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Dashboard mobile optimizations */
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    /* Challenge cards mobile */
+    .challenge-card {
+        margin-bottom: 1rem;
+    }
+
+    /* Quiz mobile optimizations */
+    .quiz-question {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+
+    .answer-option {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Chart containers mobile */
+    .chart-container {
+        height: 250px !important;
+    }
+
+    /* Leaderboard mobile */
+    .leaderboard-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .leaderboard-item .avatar {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lg\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Enhanced hover effects for desktop */
+@media (min-width: 1025px) {
+    .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .floating-animation,
+    .rotate-slow,
+    .pulse-custom {
+        animation: none;
+    }
+
+    .card-hover:hover {
+        transform: none;
+    }
+
+    .btn-primary:hover {
+        transform: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .btn-primary {
+        border: 2px solid transparent;
+    }
+
+    .card-hover {
+        border: 1px solid #e5e7eb;
+    }
+
+    .answer-option:hover {
+        border-color: #059669;
+        border-width: 2px;
+    }
+}
+
+/* Focus indicators for keyboard navigation */
+.nav-link:focus,
+.challenge-filter:focus,
+.leaderboard-tab:focus,
+.answer-option:focus,
+button:focus {
+    outline: 2px solid #10B981;
+    outline-offset: 2px;
+}
+
+/* Loading states */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+/* Error states */
+.error-message {
+    background-color: #FEE2E2;
+    border: 1px solid #FECACA;
+    color: #DC2626;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.success-message {
+    background-color: #D1FAE5;
+    border: 1px solid #A7F3D0;
+    color: #065F46;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .hero-gradient {
+        background: white !important;
+        color: black !important;
+    }
+
+    .btn-primary {
+        background: white !important;
+        color: black !important;
+        border: 1px solid black !important;
+    }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1F2937;
+        --bg-secondary: #374151;
+        --text-primary: #F9FAFB;
+        --text-secondary: #D1D5DB;
+    }
+}

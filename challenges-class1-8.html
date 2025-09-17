@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Challenges for Class 1-8 - EcoLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="nav-link" onclick="window.location.href='index.html'; return false;">
+                    <div class="flex items-center space-x-2" style="cursor:pointer;">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">EcoLearn</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-green-600 transition-colors nav-link">Home</a>
+                    <a href="dashboard.html" id="dashboardLink"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Dashboard</a>
+                    <div class="relative">
+                        <button id="challengesDropdownBtn"
+                            class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2 flex items-center">
+                            Challenges
+                            <i class="fas fa-chevron-down ml-1 text-sm"></i>
+                        </button>
+                        <div id="challengesDropdown"
+                            class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                            <a href="challenges-class1-8.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 first:rounded-t-lg transition-colors">
+                                <i class="fas fa-graduation-cap mr-2"></i>
+                                Challenges for Class 1-8
+                            </a>
+                            <a href="challenges-class9-12.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 last:rounded-b-lg transition-colors">
+                                <i class="fas fa-university mr-2"></i>
+                                Challenges for Class 9-12
+                            </a>
+                        </div>
+                    </div>
+                    <a href="resources-quizzes.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Resources and Quizzes</a>
+                    <a href="games.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Leaderboard</a>
+                    <a href="index.html#analytics"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Analytics</a>
+                    <a href="index.html#about"
+                        class="text-gray-700 hover:text-green-600 transition-colors nav-link">About Us</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        Get Started
+                    </button>
+                    <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden mt-4 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <a href="index.html" class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+                    <a href="dashboard.html" id="dashboardLinkMobile"
+                        class="block py-2 text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="challenges-class1-8.html"
+                        class="block py-2 text-gray-700 hover:text-green-600">Challenges</a>
+                    <a href="challenges-class1-8.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Challenges for Class 1-8
+                    </a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-university mr-2"></i>
+                        Challenges for Class 9-12
+                    </a>
+                    <a href="resources-quizzes.html" class="block py-2 text-gray-700 hover:text-green-600">Resources and
+                        Quizzes</a>
+                    <a href="games.html" class="block py-2 text-gray-700 hover:text-green-600">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="block py-2 text-gray-700 hover:text-green-600">Leaderboard</a>
+                    <a href="index.html#analytics" class="block py-2 text-gray-700 hover:text-green-600">Analytics</a>
+                    <a href="index.html#about" class="block py-2 text-gray-700 hover:text-green-600">About Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero-gradient py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4" data-aos="fade-up">Challenges for Class 1-8</h1>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                These real-life challenges are thoughtfully designed for younger students, helping them build essential
+                life skills, develop responsibility, and cultivate problem-solving habits at an early age. They are
+                engaging yet achievable, encouraging creativity and confidence in everyday situations.
+            </p>
+            <a href="index.html"
+                class="inline-block mt-8 bg-white text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Challenges Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore the Challenges</h2>
+                <p class="text-lg text-gray-600">Choose a challenge and start making a positive impact on the
+                    environment!</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-challenge="plastic-free-day">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-ban text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="plastic-free-day"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Plastic-Free Day</h3>
+                    <p class="text-gray-600">Avoid single-use plastics for one day.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="100" data-challenge="save-water">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tint text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="save-water"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Save Water</h3>
+                    <p class="text-gray-600">Track and reduce daily water usage.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="200" data-challenge="tree-spotting">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tree text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="tree-spotting"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Tree Spotting</h3>
+                    <p class="text-gray-600">Identify 5 local trees and learn their benefits.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="300" data-challenge="recycling-hunt">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-recycle text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="recycling-hunt"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Recycling Hunt</h3>
+                    <p class="text-gray-600">Find three reusable or recyclable items at home.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="400" data-challenge="energy-saver">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bolt text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="energy-saver"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Energy Saver</h3>
+                    <p class="text-gray-600">Switch off unused devices to save electricity.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="500" data-challenge="turn-off-lights">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-lightbulb text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="turn-off-lights"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Turn Off Lights</h3>
+                    <p class="text-gray-600">Turn off lights when leaving a room and unplug chargers not in use.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="600" data-challenge="plant-and-nurture">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-seedling text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="plant-and-nurture"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Plant and Nurture</h3>
+                    <p class="text-gray-600">Plant and nurture a small garden or tree.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="700" data-challenge="adopt-a-spot">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-home text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="adopt-a-spot"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Adopt a Spot</h3>
+                    <p class="text-gray-600">Adopt a section of a yard or park and keep it clean.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="800" data-challenge="timed-showers">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-clock text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="timed-showers"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Timed Showers</h3>
+                    <p class="text-gray-600">Time showers with a fun song to save water.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="900" data-challenge="recycling-chief">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-crown text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="recycling-chief"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Recycling Chief</h3>
+                    <p class="text-gray-600">Be the "Recycling Chief" to sort waste properly.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1000" data-challenge="nature-sketch">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-palette text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="nature-sketch"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Nature Sketch</h3>
+                    <p class="text-gray-600">Draw your favorite tree, flower, or bird in your neighborhood.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1100" data-challenge="upcycle-craft">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tools text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="upcycle-craft"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Upcycle Craft</h3>
+                    <p class="text-gray-600">Make a pencil holder or toy from waste material.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1200" data-challenge="eco-diary">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-book text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="eco-diary"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Eco Diary</h3>
+                    <p class="text-gray-600">Write one eco-friendly action you did each day for a week.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1300" data-challenge="lunch-box-check">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-utensils text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="lunch-box-check"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Lunch Box Check</h3>
+                    <p class="text-gray-600">Bring a zero-waste lunch (no plastic wraps or disposable cutlery).</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1400" data-challenge="walk-or-cycle-day">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bicycle text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="walk-or-cycle-day"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Walk or Cycle Day</h3>
+                    <p class="text-gray-600">Walk or cycle instead of taking a car for a short trip.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1500" data-challenge="paper-saver">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="paper-saver"
+                            class="challenge-checkbox w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Paper Saver</h3>
+                    <p class="text-gray-600">Use both sides of paper for notes or art.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1600" data-challenge="seed-collection">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-seedling text-green-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="seed-collection"
+                            class="challenge-checkbox w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Seed Collection</h3>
+                    <p class="text-gray-600">Collect and plant seeds from fruits you eat at home.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1700" data-challenge="water-watcher">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tint text-blue-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="water-watcher"
+                            class="challenge-checkbox w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Water Watcher</h3>
+                    <p class="text-gray-600">Place a bucket under dripping taps and measure wasted water.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1800" data-challenge="eco-quiz">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-question-circle text-orange-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="eco-quiz"
+                            class="challenge-checkbox w-5 h-5 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Eco Quiz</h3>
+                    <p class="text-gray-600">Make a small quiz for friends or family on saving the environment.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover challenge-card" data-aos="fade-up"
+                    data-aos-delay="1900" data-challenge="bird-feeder">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-dove text-yellow-600 text-xl"></i>
+                        </div>
+                        <input type="checkbox" id="bird-feeder"
+                            class="challenge-checkbox w-5 h-5 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Bird Feeder</h3>
+                    <p class="text-gray-600">Make a simple bird feeder and record the birds visiting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400">© 2025 EcoLearn. All rights reserved. Building a sustainable future.</p>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Load completed challenges from localStorage
+        function loadCompletedChallenges() {
+            const completed = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+            document.querySelectorAll('.challenge-card').forEach(card => {
+                const challengeId = card.getAttribute('data-challenge');
+                const checkbox = card.querySelector('.challenge-checkbox');
+                if (completed.includes(challengeId)) {
+                    checkbox.checked = true;
+                    card.style.opacity = '0.5';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+        // Save completed challenges to localStorage
+        function saveCompletedChallenges() {
+            const completed = [];
+            document.querySelectorAll('.challenge-checkbox:checked').forEach(checkbox => {
+                const card = checkbox.closest('.challenge-card');
+                const challengeId = card.getAttribute('data-challenge');
+                completed.push(challengeId);
+            });
+            localStorage.setItem('completedChallenges', JSON.stringify(completed));
+        }
+
+        // Handle checkbox changes
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('challenge-checkbox')) {
+                const card = e.target.closest('.challenge-card');
+                const challengeName = card.querySelector('h3').textContent;
+
+                if (e.target.checked) {
+                    // Confirm before marking as completed
+                    if (confirm(`Have you really completed the "${challengeName}" challenge? This will mark it as done and hide it.`)) {
+                        card.style.opacity = '0.5';
+                        card.style.pointerEvents = 'none';
+                        saveCompletedChallenges();
+                    } else {
+                        // Uncheck if not confirmed
+                        e.target.checked = false;
+                    }
+                } else {
+                    // Allow unchecking without confirmation
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                    saveCompletedChallenges();
+                }
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCompletedChallenges();
+        });
+    </script>
+</body>
+
+</html>
+

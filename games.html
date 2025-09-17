@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Games - EcoLearn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-icon {
+            font-size: 48px;
+            color: #4ade80;
+            /* green-400 */
+            margin-bottom: 12px;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            /* gray-800 */
+            margin-bottom: 8px;
+        }
+
+        .game-description {
+            font-size: 1rem;
+            color: #4b5563;
+            /* gray-600 */
+        }
+
+        iframe {
+            /* pointer-events: none; Removed to allow interaction */
+        }
+
+        .game-card>div.aspect-video {
+            pointer-events: auto;
+        }
+
+        /* New styles for navbar shrink */
+        #navbar {
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        #navbar.navbar-shrink {
+            padding: 0.3rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="nav-link" onclick="window.location.href='index.html'; return false;">
+                    <div class="flex items-center space-x-2" style="cursor:pointer;">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">EcoLearn</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-green-600 transition-colors nav-link">Home</a>
+                    <a href="dashboard.html" id="dashboardLink"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Dashboard</a>
+                    <div class="relative">
+                        <button id="challengesDropdownBtn"
+                            class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2 flex items-center">
+                            Challenges
+                            <i class="fas fa-chevron-down ml-1 text-sm"></i>
+                        </button>
+                        <div id="challengesDropdown"
+                            class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                            <a href="challenges-class1-8.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 first:rounded-t-lg transition-colors">
+                                <i class="fas fa-graduation-cap mr-2"></i>
+                                Challenges for Class 1-8
+                            </a>
+                            <a href="challenges-class9-12.html"
+                                class="block px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-600 last:rounded-b-lg transition-colors">
+                                <i class="fas fa-university mr-2"></i>
+                                Challenges for Class 9-12
+                            </a>
+                        </div>
+                    </div>
+                    <a href="resources-quizzes.html"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Resources and Quizzes</a>
+                    <a href="games.html" class="text-green-600 font-semibold transition-colors px-4 py-2">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Leaderboard</a>
+                    <a href="index.html#analytics"
+                        class="text-gray-700 hover:text-green-600 transition-colors px-4 py-2">Analytics</a>
+                    <a href="index.html#about"
+                        class="text-gray-700 hover:text-green-600 transition-colors nav-link">About Us</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                        Get Started
+                    </button>
+                    <button class="md:hidden text-gray-700" id="mobileMenuBtn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden mt-4 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <a href="index.html" class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+                    <a href="dashboard.html" id="dashboardLinkMobile"
+                        class="block py-2 text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 text-gray-700 hover:text-green-600">Challenges</a>
+                    <a href="challenges-class1-8.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Challenges for Class 1-8
+                    </a>
+                    <a href="challenges-class9-12.html"
+                        class="block py-2 pl-6 text-gray-600 hover:text-green-600 text-sm">
+                        <i class="fas fa-university mr-2"></i>
+                        Challenges for Class 9-12
+                    </a>
+                    <a href="resources-quizzes.html" class="block py-2 text-gray-700 hover:text-green-600">Resources and
+                        Quizzes</a>
+                    <a href="games.html" class="block py-2 text-gray-700 hover:text-green-600">Games</a>
+                    <a href="index.html#leaderboard"
+                        class="block py-2 text-gray-700 hover:text-green-600">Leaderboard</a>
+                    <a href="index.html#analytics" class="block py-2 text-gray-700 hover:text-green-600">Analytics</a>
+                    <a href="index.html#about" class="block py-2 text-gray-700 hover:text-green-600">About Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex flex-col items-center justify-center pt-24 px-6">
+        <h1 class="text-5xl font-bold text-white mb-6" data-aos="fade-up">EcoLearn Games</h1>
+        <p class="text-xl text-gray-200 max-w-3xl text-center mb-12" data-aos="fade-up" data-aos-delay="200">
+            Engage with fun and educational games designed to reinforce environmental knowledge and inspire action.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full" data-aos="fade-up"
+            data-aos-delay="400">
+            <!-- Would You Rather Game -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Would You Rather Game</h3>
+                    <p class="game-description">Make tough choices and learn about environmental dilemmas.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Would You rather Game" frameborder="0" width="100%" height="100%"
+                        src="https://view.genially.com/68c9b448061f58e1fb21a680" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+
+            <!-- Cosmic Heroes Quiz -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Cosmic Heroes Quiz</h3>
+                    <p class="game-description">Test your knowledge about space and environmental science.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Cosmic Heroes Quiz" frameborder="0" width="100%" height="100%"
+                        src="https://view.genially.com/68c9b31c061f58e1fb20a8c1" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+
+            <!-- Question Wheel -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Question Wheel</h3>
+                    <p class="game-description">Spin the wheel and answer challenging environmental questions.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Question Wheel" frameborder="0" width="100%" height="100%"
+                        src="https://view.genially.com/68c95397ed0dde3f97f7917c" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+
+            <!-- Flags Challenge -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Flags Challenge</h3>
+                    <p class="game-description">Identify countries and learn about global environmental issues.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Flags Challenge" frameborder="0" width="100%" height="100%"
+                        src="https://view.genially.com/68c9c74051ba273a295c0501" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+
+            <!-- Mental Agility Game -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Mental Agility Game</h3>
+                    <p class="game-description">Sharpen your mind with environmental puzzles and challenges.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Mental Agility Game" frameborder="0" width="100%" height="100%"
+                        src="https://view.genially.com/68c9b70eaf0dc656f327ed2e" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+
+            <!-- Cognitive Stimulation Games -->
+            <div class="game-card mb-8">
+                <div class="mb-4">
+                    <h3 class="game-title">Cognitive Stimulation Games</h3>
+                    <p class="game-description">Engage your brain with interactive environmental challenges.</p>
+                </div>
+                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                    <iframe loading="lazy" title="Cognitive Stimulation Games" frameborder="0" width="100%"
+                        height="100%" src="https://view.genially.com/68c9cd830a2217719b95deef" type="text/html"
+                        allowscriptaccess="always" allowfullscreen="true" scrolling="yes"
+                        allownetworking="all"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-12 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400">© 2025 EcoLearn. All rights reserved. Building a sustainable future.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-shrink');
+                navbar.classList.add('navbar-blur');
+            } else {
+                navbar.classList.remove('navbar-shrink');
+                navbar.classList.remove('navbar-blur');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Challenges dropdown toggle
+        const challengesDropdownBtn = document.getElementById('challengesDropdownBtn');
+        const challengesDropdown = document.getElementById('challengesDropdown');
+
+        challengesDropdownBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            challengesDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!challengesDropdownBtn.contains(e.target) && !challengesDropdown.contains(e.target)) {
+                challengesDropdown.classList.add('hidden');
+            }
+        });
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Nav links smooth scroll
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Login Modal
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('loginBtn').addEventListener('click', openLoginModal);
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const college = document.getElementById('studentCollege').value;
+
+            // Store user data in localStorage (simulating login)
+            const userData = {
+                id: 'user_' + Date.now(),
+                name: name,
+                email: email,
+                college: college,
+                xp_points: 0,
+                level: 1,
+                badges: [],
+                completed_challenges: [],
+                completed_quizzes: [],
+                avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+                join_date: new Date().toISOString()
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            closeLoginModal();
+
+            // Show success message and redirect to dashboard
+            alert(`Welcome ${name}! Redirecting to your dashboard...`);
+            setTimeout(() => {
+                scrollToSection('dashboard');
+            }, 1000);
+        });
+
+        // Check if user is logged in
+        function isLoggedIn() {
+            return localStorage.getItem('currentUser') !== null;
+        }
+
+        function getCurrentUser() {
+            const userData = localStorage.getItem('currentUser');
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Update login button based on user state
+        function updateLoginButton() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (isLoggedIn()) {
+                const user = getCurrentUser();
+                loginBtn.innerHTML = `<i class="fas fa-user mr-2"></i>${user.name}`;
+                loginBtn.onclick = () => scrollToSection('dashboard');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateLoginButton();
+        });
+
+        // Make game cards clickable after DOM is fully loaded
+        window.addEventListener('load', function () {
+            const gameCards = document.querySelectorAll('.game-card');
+            console.log('Game cards found:', gameCards.length);
+            gameCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    console.log('Game card clicked:', card.querySelector('.game-title').textContent);
+                    const iframe = card.querySelector('iframe');
+                    if (iframe && iframe.src) {
+                        window.open(iframe.src, '_blank');
+                    } else {
+                        console.warn('No iframe or src found for this game card.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
